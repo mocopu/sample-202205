@@ -40,5 +40,5 @@ jobs:
       # pytest を実行する
       # run: poetry run pytest test --cov=./slack_api_decorator --cov-report=xml
       - name: Run Tests
-        run: poetry run pytest test
+        run: poetry run pytest 
 
