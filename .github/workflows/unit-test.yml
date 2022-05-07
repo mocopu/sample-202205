@@ -8,13 +8,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  pytest:
+  bulid:
     name: Run tests with pytest
     runs-on: ubuntu-latest
     # 複数の Python のバージョンでテストするために `strategy.matrix` を設定する
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6]
     steps:
       # リポジトリをチェックアウトする
       # See: https://github.com/actions/checkout
@@ -34,9 +34,21 @@ jobs:
       # Poetry へのパスを通す
       - name: Add path for Poetry
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      # Act 実行時にvirtualenvが使えないためインストール <- 不要だったのでコメントアウト
+      #- name: Install Virtualenv
+      #  if: ${{ env.ACT }}
+      #  run: pip3 install virtualenv
+      # 
+      #- name: print version
+      #  run: poetry --version
       # インストールした Poetry を使って必要な Python パッケージをインストールする
       - name: Install Dependencies
-        run: poetry install --no-interaction
+      #  run: poetry install --no-interaction -v
+        run: poetry install --no-interaction -v
+        env:
+          LC_ALL: C.UTF-8
+          LANG: C.UTF-8
+          LANGUAGE: C.UTF-8
       # pytest を実行する
       # run: poetry run pytest test --cov=./slack_api_decorator --cov-report=xml
       - name: Run Tests
